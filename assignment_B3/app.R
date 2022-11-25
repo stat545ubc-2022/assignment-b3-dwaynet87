@@ -9,6 +9,7 @@
 
 library(shiny)
 library(tidyverse)
+library(DT)
 
 bcl <- read_csv("~/Desktop/STAT545A/assignment-b3-dwaynet87/assignment_B3/bcl-data.csv")
 
@@ -38,7 +39,7 @@ ui <- fluidPage(
     
     mainPanel(
       plotOutput("alcohol_hist"), 
-      tableOutput("data_table")
+      dataTableOutput("data_table")
     )
   ), 
   a(href="https://github.com/daattali/shiny-server/blob/master/bcl/data/bcl-data.csv", 
@@ -66,7 +67,7 @@ server <- function(input, output) {
     })
   
   output$data_table <- 
-    renderTable({
+    renderDataTable({
       filtered_data()
     }) 
 }
