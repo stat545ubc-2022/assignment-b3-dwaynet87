@@ -14,9 +14,24 @@ library(colourpicker)
 
 bcl <- read_csv("~/Desktop/STAT545A/assignment-b3-dwaynet87/assignment_B3/bcl-data.csv")
 
+#Feature changes: OPTION A
+
+#1. There’s at least one new functional widget that modifies at least one output.
+#Action: Added the option to filter by country.
+
+#2. There’s at least one change to the UI (aside from the addition of a widget).
+#Action: changed the typeInput radio buttons into checkboxes (checkboxGroupInput()) to 
+#search for multiple types simultaneously. 
+
+#3. A third feature, whether it’s a change to the UI, or a functional widget.
+#Action: Use the DT package to turn the static table into an interactive table to allow adjustments 
+#to the number of entries presented and add search specifications e.g.items starting with the letter 's'.
+
+#4. Updated histogram to display per type of product for easier visualization.
+
 ui <- fluidPage(
   titlePanel("BC Liquor Store Data"), 
-  h5("Welcome to my shiny app!"), 
+  h5("Drink Responsibly!"), 
   br(), 
   sidebarLayout(
     sidebarPanel(
@@ -26,20 +41,14 @@ ui <- fluidPage(
                    choices = c("BEER", "REFRESHMENT", 
                                "SPIRITS", "WINE"), selected = "BEER"),
       uiOutput("typeSelectOutput"),
-      checkboxInput("filterCountry", "Filter by country", TRUE),
+      checkboxInput("filterCountry", "Filter by country", FALSE),
       conditionalPanel(
         condition = "input.filterCountry",
-        uiOutput("countrySelectorOutput"),
-        #colourInput(
-          #"col", NULL, "yellow",
-          #palette = "limited")
-        colourInput("col", "Choose colour", "red"),
+        uiOutput("countrySelectorOutput")
+       
       )
         
-      #selectInput("Country",
-                  #label = "Choose a country to display",
-                  #choices = list("CANADA", "FRANCE", "UNITED STATES OF AMERICA",
-                                 #"ITALY", "AUSTRALIA"), selected = "CANADA")
+  
     ),
     
     mainPanel(
@@ -61,14 +70,15 @@ server <- function(input, output) {
     reactive({
       bcl %>% filter(Price > input$priceInput[1] & 
                        Price < input$priceInput[2] & 
-                       Type == input$typeInput
+                       Type == input$typeInput & Country == input$countryInput
                      )
     })
   
   output$alcohol_hist <- 
     renderPlot({
       filtered_data() %>% 
-        ggplot(aes(Alcohol_Content)) + geom_histogram(aes(fill="Type"))
+        ggplot(aes(Alcohol_Content, fill = Type)) + geom_histogram(colour ="black") +
+        theme_classic()
     })
   
   output$data_table <- 
