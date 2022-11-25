@@ -11,7 +11,6 @@
 
 ## Data
 The dataset utilized included products sold by BC Liquor Store and is provided by OpenDataBC. It can be accessed by the following link:
-
 https://catalogue.data.gov.bc.ca/dataset/bc-liquor-store-product-price-list-historical-prices
 
 
