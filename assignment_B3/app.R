@@ -19,11 +19,23 @@ ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
       sliderInput("priceInput", "Price", 0, 100, 
-                  value = c(25, 40), pre = "$"), 
-      radioButtons("typeInput", "Type", 
+                  value = c(25, 40), pre = "$"),
+      checkboxGroupInput("typeInput", "Type", 
                    choices = c("BEER", "REFRESHMENT", 
-                               "SPIRITS", "WINE"))
+                               "SPIRITS", "WINE"), selected = "BEER"),
+      uiOutput("typeSelectOutput"),
+      checkboxInput("filterCountry", "Filter by country", TRUE),
+      conditionalPanel(
+        condition = "input.filterCountry",
+        uiOutput("countrySelectorOutput")
+      )
+        
+      #selectInput("Country",
+                  #label = "Choose a country to display",
+                  #choices = list("CANADA", "FRANCE", "UNITED STATES OF AMERICA",
+                                 #"ITALY", "AUSTRALIA"), selected = "CANADA")
     ),
+    
     mainPanel(
       plotOutput("alcohol_hist"), 
       tableOutput("data_table")
@@ -34,12 +46,17 @@ ui <- fluidPage(
 )
 
 server <- function(input, output) {
-  
+  output$countrySelectorOutput <- renderUI({
+    selectInput("countryInput", "Country",
+                sort(unique(bcl$Country)),
+                selected = "CANADA")  
+    })
   filtered_data <- 
     reactive({
       bcl %>% filter(Price > input$priceInput[1] & 
                        Price < input$priceInput[2] & 
-                       Type == input$typeInput)
+                       Type == input$typeInput
+                     )
     })
   
   output$alcohol_hist <- 
