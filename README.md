@@ -3,7 +3,7 @@
 
 ## Link to app:
 
-## Description :This version adds to the basic version by:
+## Description: This version adds to the basic version by:
 1. Adding the option to filter type search by country.
 2. Adjusting the ui widget so that users can search for multiple product types simultaneously.
 3. Converts the static table into an interactive table whereby users van control the number of indexes presented and curate search feature e.g. by the letter "s".
