@@ -10,6 +10,7 @@
 library(shiny)
 library(tidyverse)
 library(DT)
+library(colourpicker)
 
 bcl <- read_csv("~/Desktop/STAT545A/assignment-b3-dwaynet87/assignment_B3/bcl-data.csv")
 
@@ -28,7 +29,11 @@ ui <- fluidPage(
       checkboxInput("filterCountry", "Filter by country", TRUE),
       conditionalPanel(
         condition = "input.filterCountry",
-        uiOutput("countrySelectorOutput")
+        uiOutput("countrySelectorOutput"),
+        #colourInput(
+          #"col", NULL, "yellow",
+          #palette = "limited")
+        colourInput("col", "Choose colour", "red"),
       )
         
       #selectInput("Country",
@@ -63,7 +68,7 @@ server <- function(input, output) {
   output$alcohol_hist <- 
     renderPlot({
       filtered_data() %>% 
-        ggplot(aes(Alcohol_Content)) + geom_histogram()
+        ggplot(aes(Alcohol_Content)) + geom_histogram(aes(fill="Type"))
     })
   
   output$data_table <- 
