@@ -2,6 +2,7 @@
 # Assignment choice: Option A- BC Liquor app. 
 
 ## Link to app:
+https://dwaynet87.shinyapps.io/assignment_B3/
 
 ## Description: This version adds to the basic version by:
 1. Adding the option to filter type search by country.
@@ -10,7 +11,10 @@
 4. For better presentation, the colour was added to the histogram visuals to display by product type. 
 
 ## Data
-The dataset utilized included products sold by BC Liquor Store and is provided by OpenDataBC. It can be accessed by the following link:
-https://catalogue.data.gov.bc.ca/dataset/bc-liquor-store-product-price-list-historical-prices
+The dataset utilized is a cleaned and curated version of the products sold by BC Liquor Store and is provided OpenDataBC. The data used to developed the app is available on github and can be read in from using the read.csv finction in r: 
+bcl <- read.csv("https://raw.githubusercontent.com/stat545ubc-2022/assignment-b3-dwaynet87/Shiny_progress/assignment_B3/bcl-data.csv")
+
+
+The pre-cleaned version of the data can be accessed by the following link:https://catalogue.data.gov.bc.ca/dataset/bc-liquor-store-product-price-list-historical-prices
 
 
