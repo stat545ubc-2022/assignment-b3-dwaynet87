@@ -44,7 +44,7 @@ ui <- fluidPage(
                    choices = c("BEER", "REFRESHMENT", 
                                "SPIRITS", "WINE"), selected = c("BEER", "WINE")),
       uiOutput("typeSelectOutput"),
-      checkboxInput("filterCountry", "Filter by country", TRUE),
+      checkboxInput("filterCountry", "Filter by country", FALSE),
       conditionalPanel(
         condition = "input.filterCountry",
         uiOutput("countrySelectorOutput")
@@ -55,7 +55,8 @@ ui <- fluidPage(
     ),
     
     mainPanel(
-      plotOutput("alcohol_hist"), 
+      plotOutput("alcohol_hist"),
+      br(), br(),
       dataTableOutput("data_table")
     )
   ), 
@@ -70,17 +71,21 @@ server <- function(input, output) {
                 selected = "CANADA")  
     })
   filtered_data <- 
-    reactive({
-      bcl %>% filter(Price > input$priceInput[1] & 
-                       Price < input$priceInput[2] & 
-                       Type == input$typeInput & Country == input$countryInput
+    reactive({ 
+      if(is.null(input$countryInput)) {
+        return (NULL)
+      }
+      bcl %>% filter(Price >= input$priceInput[1],
+                     Price <= input$priceInput[2],
+                     Type == input$typeInput,
+                     Country == input$countryInput
                      )
     })
   
   output$alcohol_hist <- 
     renderPlot({
       filtered_data() %>% 
-        ggplot(aes(Alcohol_Content, fill = Type)) + geom_histogram(colour ="black") +
+        ggplot(aes(Alcohol_Content, fill = Type)) + geom_histogram(colour= "Black") +
         theme_classic()
     })
   
