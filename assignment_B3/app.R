@@ -11,8 +11,11 @@ library(shiny)
 library(tidyverse)
 library(DT)
 library(colourpicker)
+library(ggplot2)
 
-bcl <- read_csv("~/Desktop/STAT545A/assignment-b3-dwaynet87/assignment_B3/bcl-data.csv")
+#bcl <- read_csv("~/Desktop/STAT545A/assignment-b3-dwaynet87/assignment_B3/bcl-data.csv")
+
+bcl <- read.csv("https://raw.githubusercontent.com/stat545ubc-2022/assignment-b3-dwaynet87/Shiny_progress/assignment_B3/bcl-data.csv")
 
 #Feature changes: OPTION A
 
@@ -31,17 +34,17 @@ bcl <- read_csv("~/Desktop/STAT545A/assignment-b3-dwaynet87/assignment_B3/bcl-da
 
 ui <- fluidPage(
   titlePanel("BC Liquor Store Data"), 
-  h5("Drink Responsibly!"), 
+  h5("Let this app help you find the right drink for your mood...Enjoy!"), 
   br(), 
   sidebarLayout(
     sidebarPanel(
       sliderInput("priceInput", "Price", 0, 100, 
-                  value = c(25, 40), pre = "$"),
+                  value = c(10, 40), pre = "$"),
       checkboxGroupInput("typeInput", "Type", 
                    choices = c("BEER", "REFRESHMENT", 
-                               "SPIRITS", "WINE"), selected = "BEER"),
+                               "SPIRITS", "WINE"), selected = c("BEER", "WINE")),
       uiOutput("typeSelectOutput"),
-      checkboxInput("filterCountry", "Filter by country", FALSE),
+      checkboxInput("filterCountry", "Filter by country", TRUE),
       conditionalPanel(
         condition = "input.filterCountry",
         uiOutput("countrySelectorOutput")
@@ -81,6 +84,7 @@ server <- function(input, output) {
         theme_classic()
     })
   
+ 
   output$data_table <- 
     renderDataTable({
       filtered_data()
