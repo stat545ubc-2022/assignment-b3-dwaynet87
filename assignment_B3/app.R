@@ -7,6 +7,7 @@
 #    http://shiny.rstudio.com/
 #
 
+#Load packages
 library(shiny)
 library(tidyverse)
 library(DT)
@@ -15,6 +16,7 @@ library(ggplot2)
 
 #bcl <- read_csv("~/Desktop/STAT545A/assignment-b3-dwaynet87/assignment_B3/bcl-data.csv")
 
+#Load data
 bcl <- read.csv("https://raw.githubusercontent.com/stat545ubc-2022/assignment-b3-dwaynet87/Shiny_progress/assignment_B3/bcl-data.csv")
 
 #Feature changes: OPTION A
@@ -32,6 +34,7 @@ bcl <- read.csv("https://raw.githubusercontent.com/stat545ubc-2022/assignment-b3
 
 #4. Updated histogram to display per type of product for easier visualization.
 
+# Define UI
 ui <- fluidPage(
   titlePanel("BC Liquor Store Data"), 
   h5("Let this app help you find the right drink for your mood...Enjoy!"), 
@@ -64,7 +67,7 @@ ui <- fluidPage(
     "Link to the original data set")
 )
 
-server <- function(input, output) {
+server <- function(input, output, session) {
   output$countrySelectorOutput <- renderUI({
     selectInput("countryInput", "Country",
                 sort(unique(bcl$Country)),
