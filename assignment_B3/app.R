@@ -46,6 +46,7 @@ ui <- fluidPage(
       checkboxGroupInput("typeInput", "Type", 
                    choices = c("BEER", "REFRESHMENT", 
                                "SPIRITS", "WINE"), selected = c("BEER", "WINE")),
+      selectInput("countryInput", "Country", choices = c("CANANDA", "JAMAICA")),
       uiOutput("typeSelectOutput"),
       checkboxInput("filterCountry", "Filter by country", FALSE),
       conditionalPanel(
@@ -67,7 +68,7 @@ ui <- fluidPage(
     "Link to the original data set")
 )
 
-server <- function(input, output, session) {
+server <- function(input, output) {
   output$countrySelectorOutput <- renderUI({
     selectInput("countryInput", "Country",
                 sort(unique(bcl$Country)),
