@@ -46,7 +46,7 @@ ui <- fluidPage(
       checkboxGroupInput("typeInput", "Type", 
                    choices = c("BEER", "REFRESHMENT", 
                                "SPIRITS", "WINE"), selected = c("BEER", "WINE")),
-      selectInput("countryInput", "Country", sort(unique(bcl$Country)), selected = "JAMAICA"),
+      selectInput("countryInput", "Country", sort(unique(bcl$Country)), selected = "CANADA"),
       uiOutput("typeSelectOutput"),
       checkboxInput("filterCountry", "Filter by country", FALSE),
       conditionalPanel(
@@ -59,6 +59,14 @@ ui <- fluidPage(
     ),
     
     mainPanel(
+      h3(textOutput("summaryText")),
+      downloadButton("download", "Download results"),
+      br(),
+      plotOutput("plot"),
+      
+      
+      #tableOutput("price")
+      #DT::dataTableOutput("Price"),
       plotOutput("alcohol_hist"),
       br(), br(),
       dataTableOutput("data_table")
@@ -66,14 +74,18 @@ ui <- fluidPage(
   ), 
   a(href="https://github.com/daattali/shiny-server/blob/master/bcl/data/bcl-data.csv", 
     "Link to the original data set")
+
 )
 
 server <- function(input, output) {
   output$countrySelectorOutput <- renderUI({
     selectInput("countryInput", "Country",
                 sort(unique(bcl$Country)),
-                selected = "CANADA")  
+                selected = "CANADA")
+    
+    
     })
+  
   filtered_data <- 
     reactive({ 
       if(is.null(input$countryInput)) {
@@ -85,6 +97,16 @@ server <- function(input, output) {
                      Country == input$countryInput
                      )
     })
+  
+  
+  output$summaryText <- renderText({
+    numOptions <- nrow(Price())
+    if (is.null(numOptions)) {
+      numOptions <- 0
+    }
+    paste0("We found", numOptions, "options for you")
+  })
+  
   
   output$alcohol_hist <- 
     renderPlot({
@@ -98,6 +120,8 @@ server <- function(input, output) {
     renderDataTable({
       filtered_data()
     }) 
+  
+
 }
 
 shinyApp(ui = ui, server = server)
