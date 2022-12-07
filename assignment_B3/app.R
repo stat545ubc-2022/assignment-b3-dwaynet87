@@ -44,84 +44,54 @@ ui <- fluidPage(
       sliderInput("priceInput", "Price", 0, 100, 
                   value = c(10, 40), pre = "$"),
       checkboxGroupInput("typeInput", "Type", 
-                   choices = c("BEER", "REFRESHMENT", 
-                               "SPIRITS", "WINE"), selected = c("BEER", "WINE")),
-      selectInput("countryInput", "Country", sort(unique(bcl$Country)), selected = "CANADA"),
+                         choices = c("BEER", "REFRESHMENT", 
+                                     "SPIRITS", "WINE"), selected = c("BEER", "WINE")),
       uiOutput("typeSelectOutput"),
-      checkboxInput("filterCountry", "Filter by country", FALSE),
+      selectInput("countryInput", "Country", sort(unique(bcl$Country)), selected = "CANADA"),
       conditionalPanel(
         condition = "input.filterCountry",
         uiOutput("countrySelectorOutput")
-       
       )
-        
-  
+      
+      
     ),
     
     mainPanel(
-      h3(textOutput("summaryText")),
-      downloadButton("download", "Download results"),
-      br(),
-      plotOutput("plot"),
-      
-      
-      #tableOutput("price")
-      #DT::dataTableOutput("Price"),
-      plotOutput("alcohol_hist"),
-      br(), br(),
+      plotOutput("alcohol_hist"), 
       dataTableOutput("data_table")
     )
   ), 
   a(href="https://github.com/daattali/shiny-server/blob/master/bcl/data/bcl-data.csv", 
     "Link to the original data set")
-
 )
 
 server <- function(input, output) {
   output$countrySelectorOutput <- renderUI({
     selectInput("countryInput", "Country",
                 sort(unique(bcl$Country)),
-                selected = "CANADA")
-    
-    
-    })
-  
-  filtered_data <- 
-    reactive({ 
-      if(is.null(input$countryInput)) {
-        return (NULL)
-      }
-      bcl %>% filter(Price >= input$priceInput[1],
-                     Price <= input$priceInput[2],
-                     Type == input$typeInput,
-                     Country == input$countryInput
-                     )
-    })
-  
-  
-  output$summaryText <- renderText({
-    numOptions <- nrow(Price())
-    if (is.null(numOptions)) {
-      numOptions <- 0
-    }
-    paste0("We found", numOptions, "options for you")
+                selected = "CANADA")  
   })
   
+  filtered_data <- 
+    reactive({
+      bcl %>% filter(Price > input$priceInput[1] & 
+                       Price < input$priceInput[2] & 
+                       Type == input$typeInput & Country == input$countryInput
+      )
+    })
   
   output$alcohol_hist <- 
     renderPlot({
       filtered_data() %>% 
-        ggplot(aes(Alcohol_Content, fill = Type)) + geom_histogram(colour= "Black") +
+        ggplot(aes(Alcohol_Content, fill = Type)) + geom_histogram(colour ="black") +
         theme_classic()
     })
   
- 
+  
   output$data_table <- 
     renderDataTable({
       filtered_data()
     }) 
-  
-
 }
 
 shinyApp(ui = ui, server = server)
