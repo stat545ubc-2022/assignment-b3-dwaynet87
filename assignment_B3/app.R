@@ -46,7 +46,7 @@ ui <- fluidPage(
       checkboxGroupInput("typeInput", "Type", 
                    choices = c("BEER", "REFRESHMENT", 
                                "SPIRITS", "WINE"), selected = c("BEER", "WINE")),
-      selectInput("countryInput", "Country", choices = c("CANANDA", "JAMAICA")),
+      selectInput("countryInput", "Country", sort(unique(bcl$Country)), selected = "JAMAICA"),
       uiOutput("typeSelectOutput"),
       checkboxInput("filterCountry", "Filter by country", FALSE),
       conditionalPanel(
