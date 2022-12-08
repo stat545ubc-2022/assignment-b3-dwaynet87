@@ -35,11 +35,11 @@ bcl <- read.csv("https://raw.githubusercontent.com/stat545ubc-2022/assignment-b3
 
 # Define UI
 ui <- fluidPage(titlePanel( "BC Liquore Store Data"),
-  theme= shinytheme("journal"), 
+  theme= shinytheme("journal"), #added a theme for a warmer interface
   h4("Let us help you find the right 
      drink for your mood...Enjoy!"),
   h5("Just use the filters below"),
-  tags$img(src = "image.png", height= "350px", width = "390px"), 
+  tags$img(src = "image.png", height= "350px", width = "390px"), #added image to UI 
   br(),
   sidebarLayout(
     sidebarPanel(
