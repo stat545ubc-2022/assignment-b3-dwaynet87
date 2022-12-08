@@ -9,6 +9,7 @@
 
 #Load packages
 library(shiny)
+library(shinythemes)
 library(tidyverse)
 library(DT)
 library(colourpicker)
@@ -35,10 +36,11 @@ bcl <- read.csv("https://raw.githubusercontent.com/stat545ubc-2022/assignment-b3
 #4. Updated histogram to display per type of product for easier visualization.
 
 # Define UI
-ui <- fluidPage(
-  titlePanel("BC Liquor Store Data"), 
-  h5("Let this app help you find the right drink for your mood...Enjoy!"), 
-  br(), 
+ui <- fluidPage(shinythemes::themeSelector(), #user can select theme of choice
+  h3("Let this app help you find the right 
+     drink for your mood...Enjoy!"), 
+  tags$img(src = "image.png", height= "300px", width = "300px"), #added image here
+  br(),
   sidebarLayout(
     sidebarPanel(
       sliderInput("priceInput", "Price", 0, 100, 
@@ -59,6 +61,7 @@ ui <- fluidPage(
     mainPanel(
       plotOutput("alcohol_hist"), 
       dataTableOutput("data_table")
+      
     )
   ), 
   a(href="https://github.com/daattali/shiny-server/blob/master/bcl/data/bcl-data.csv", 
@@ -92,6 +95,10 @@ server <- function(input, output) {
     renderDataTable({
       filtered_data()
     }) 
+  
+  #output$image <- renderImage ({
+    #list()
+  #})
 }
 
 shinyApp(ui = ui, server = server)
