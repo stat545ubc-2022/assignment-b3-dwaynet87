@@ -36,10 +36,12 @@ bcl <- read.csv("https://raw.githubusercontent.com/stat545ubc-2022/assignment-b3
 #4. Updated histogram to display per type of product for easier visualization.
 
 # Define UI
-ui <- fluidPage(shinythemes::themeSelector(), #user can select theme of choice
+ui <- fluidPage(titlePanel( "BC Liquore Store Data"),
+  theme= shinytheme("cyborg"),
   h3("Let this app help you find the right 
      drink for your mood...Enjoy!"), 
-  tags$img(src = "image.png", height= "300px", width = "300px"), #added image here
+  br(),
+  tags$img(src = "image.png", height= "350px", width = "435px"), #added image to UI
   br(),
   sidebarLayout(
     sidebarPanel(
@@ -59,10 +61,12 @@ ui <- fluidPage(shinythemes::themeSelector(), #user can select theme of choice
     ),
     
     mainPanel(
-      plotOutput("alcohol_hist"), 
-      dataTableOutput("data_table")
+      h1(textOutput("Summary")),
+      tabsetPanel(
+        tabPanel("Data_table", dataTableOutput("Data_table")),
+        tabPanel("Alcohol_histogram", plotOutput("Alcohol_histogram"))
       
-    )
+    ))
   ), 
   a(href="https://github.com/daattali/shiny-server/blob/master/bcl/data/bcl-data.csv", 
     "Link to the original data set")
@@ -83,22 +87,29 @@ server <- function(input, output) {
       )
     })
   
-  output$alcohol_hist <- 
+  
+  output$Summary <- renderText({
+    numOptions <- nrow(filtered_data())
+    if (is.null(numOptions)) {
+      numOptions <- 0
+    }
+    paste0("We found ", numOptions, " options for you")
+  })
+  
+  output$Alcohol_histogram <- 
     renderPlot({
       filtered_data() %>% 
         ggplot(aes(Alcohol_Content, fill = Type)) + geom_histogram(colour ="black") +
-        theme_classic()
+        theme_bw()
     })
   
   
-  output$data_table <- 
+  output$Data_table <- 
     renderDataTable({
       filtered_data()
     }) 
   
-  #output$image <- renderImage ({
-    #list()
-  #})
+
 }
 
 shinyApp(ui = ui, server = server)
