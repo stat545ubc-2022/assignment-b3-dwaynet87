@@ -12,7 +12,7 @@ library(ggplot2)
 #Load data
 bcl <- read.csv("https://raw.githubusercontent.com/stat545ubc-2022/assignment-b3-dwaynet87/Shiny_progress/assignment_B3/bcl-data.csv")
 
-#Feature changes: OPTION A
+#Feature changes: 
 
 #1. There’s at least one new functional widget that modifies at least one output.
 #Action: Added the option to filter by country.
@@ -37,8 +37,8 @@ bcl <- read.csv("https://raw.githubusercontent.com/stat545ubc-2022/assignment-b3
 ui <- fluidPage(titlePanel( "BC Liquore Store Data"),
   theme= shinytheme("journal"), #added a theme for a warmer interface
   h4("Let us help you find the right 
-     drink for your mood...Enjoy!"), 
-  br(),
+     drink for your mood...Enjoy!"),
+  h5("Just use the filters below"),
   tags$img(src = "image.png", height= "350px", width = "390px"), #added image to UI 
   br(),
   sidebarLayout(
