@@ -1,10 +1,14 @@
+# BC LIQUOR APP
 
-# Assignment choice: 
-1. Assignment_B3: BC Liquor app. 
-2. Assignment_B4: Continue to build on BC Liquor app.
+\In this repository you can find information and codes used to produce the BC liquor app for STA545B assignments 3 and 4 combined. 
 
-## Link to app:
+## Assignment choice: 
+1. Assignment_B3: OPTION-A BC Liquor app. 
+2. Assignment_B4: OPTION C- Continue to build on BC Liquor app.
+
+## Link to apps for assigments b3 and b4:
 https://dwaynet87.shinyapps.io/assignment_B3/
+https://dwaynet87.shinyapps.io/assignment_B4/
 
 ## Description: This version adds to the basic version by:
 1. Adding the option to filter type search by country.
