@@ -12,7 +12,6 @@ library(shiny)
 library(shinythemes)
 library(tidyverse)
 library(DT)
-library(colourpicker)
 library(ggplot2)
 
 #bcl <- read_csv("~/Desktop/STAT545A/assignment-b3-dwaynet87/assignment_B3/bcl-data.csv")
@@ -35,13 +34,19 @@ bcl <- read.csv("https://raw.githubusercontent.com/stat545ubc-2022/assignment-b3
 
 #4. Updated histogram to display per type of product for easier visualization.
 
+#ADD ONS FOR ASSINGMENT_B4
+#5. Changed the theme for a warmer appearance.
+#6. Added an image to UI.
+#7. Added a summary text of the search results.
+#8. Added Tab panel so the user can decide how they want to view the data graphically (histogram) or in table form.
+
 # Define UI
 ui <- fluidPage(titlePanel( "BC Liquore Store Data"),
-  theme= shinytheme("cyborg"),
-  h3("Let this app help you find the right 
+  theme= shinytheme("journal"), #added a theme for a warmer interface
+  h4("Let us help you find the right 
      drink for your mood...Enjoy!"), 
   br(),
-  tags$img(src = "image.png", height= "350px", width = "435px"), #added image to UI
+  tags$img(src = "image.png", height= "350px", width = "390px"), #added image to UI 
   br(),
   sidebarLayout(
     sidebarPanel(

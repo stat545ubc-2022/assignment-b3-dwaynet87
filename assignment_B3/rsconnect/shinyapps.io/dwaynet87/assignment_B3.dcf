@@ -5,10 +5,10 @@ account: dwaynet87
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 7733400
-bundleId: 6555690
+bundleId: 6608411
 url: https://dwaynet87.shinyapps.io/assignment_B3/
-when: 1669421247.57697
-lastSyncTime: 1669421247.57698
+when: 1670470250.12421
+lastSyncTime: 1670470250.12422
 asMultiple: FALSE
 asStatic: FALSE
 ignoredFiles: bcl-data.csv
